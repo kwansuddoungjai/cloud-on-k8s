@@ -33,6 +33,13 @@ generate_drivah_config() {
     local go_tags=$3
     local license_pubkey=$4
 cat <<END
+
+[buildah]
+
+build_flags = [
+  "--log-level=debug"
+]
+
 [container.image]
 names = ["${name}"]
 tags = ["${tag}-${ARCH}"]
