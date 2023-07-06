@@ -94,6 +94,7 @@ main() {
         # fetch public license key
         if [[ ! -f "$HERE/$license_pubkey" ]]; then
             prefix="${BUILD_LICENSE_PUBKEY:+$BUILD_LICENSE_PUBKEY-}" # add "-" suffix
+            echo "# -- vault read -field="${prefix}pubkey" ../license > $license_pubkey"
             retry vault read -field="${prefix}pubkey" secret/ci/elastic-cloud-on-k8s/license \
                 | base64 --decode > "$HERE/$license_pubkey"
         fi
