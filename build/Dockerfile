@@ -25,6 +25,8 @@ COPY build/$LICENSE_PUBKEY /$LICENSE_PUBKEY
 RUN --mount=type=cache,mode=0755,target=/go/pkg/mod \
       CGO_ENABLED=0 GOOS=linux LICENSE_PUBKEY=/$LICENSE_PUBKEY make go-build
 
+RUN sha1sum pkg/controller/common/license/zz_generated.pubkey.go > /genpubkey.sha1
+
 # ---------------------------------------------
 # Copy the operator binary into a lighter image
 FROM gcr.io/distroless/static:nonroot
@@ -47,6 +49,7 @@ LABEL io.k8s.description="Elastic Cloud on Kubernetes automates the deployment, 
 
 COPY --from=builder /go/src/github.com/elastic/cloud-on-k8s/elastic-operator /elastic-operator
 COPY --from=builder /go/src/github.com/elastic/cloud-on-k8s/eck.yaml         /conf/eck.yaml
+COPY --from=builder /genpubkey.sha1 /genpubkey.sha1
 
 # Copy NOTICE.txt and LICENSE.txt into the image
 COPY *.txt /licenses/
