@@ -415,6 +415,7 @@ func doRun(_ *cobra.Command, _ []string) error {
 }
 
 func startOperator(ctx context.Context) error {
+	log.Info("Using license public key", "hash", commonlicense.Hash())
 	log.V(1).Info("Effective configuration", "values", viper.AllSettings())
 
 	// update GOMAXPROCS to container cpu limit if necessary

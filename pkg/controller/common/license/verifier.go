@@ -16,6 +16,8 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"hash/fnv"
 	"io"
 	"time"
 
@@ -23,6 +25,12 @@ import (
 
 	ulog "github.com/elastic/cloud-on-k8s/v2/pkg/utils/log"
 )
+
+func Hash() string {
+	hash := fnv.New32a()
+	hash.Write(publicKeyBytes)
+	return fmt.Sprint(hash.Sum32())
+}
 
 // Verifier verifies Enterprise licenses.
 type Verifier struct {
