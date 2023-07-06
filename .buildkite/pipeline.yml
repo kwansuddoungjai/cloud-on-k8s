@@ -84,10 +84,10 @@ steps:
       .buildkite/scripts/build/set-images.sh
       cd .buildkite/e2e/pipeline-gen && go build -o pipeline-gen
       cat <<DEF | ./pipeline-gen | buildkite-agent pipeline upload
-      - label: "kind/TestSmoke"
+      - label: "kind/TestRemoteCluster"
         fixed:
-          E2E_PROVIDER: kind
-          TESTS_MATCH: TestSmoke
+          E2E_PROVIDER: gke
+          TESTS_MATCH: TestRemoteCluster
           E2E_TAGS: "e2e,mixed"
           MONITORING_SECRETS: ""
           E2E_SKIP_CLEANUP: true
